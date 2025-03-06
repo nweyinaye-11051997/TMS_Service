@@ -18,10 +18,12 @@ namespace TaskManagementSystem.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly SignInManager<AppUser> _siginManager;
-        public AuthorizeController(IConfiguration configuration, SignInManager<AppUser> siginManager)
+        private readonly UserManager<AppUser> _userManager;
+        public AuthorizeController(IConfiguration configuration, SignInManager<AppUser> siginManager, UserManager<AppUser> userManager)
         {
             _configuration = configuration;
             _siginManager = siginManager;
+            _userManager = userManager;
         }
         [HttpPost("GenerateToken")]
         public async Task<IActionResult> GenerateToken([FromBody] LoginUser user)
@@ -29,6 +31,8 @@ namespace TaskManagementSystem.Controllers
             var res = await _siginManager.PasswordSignInAsync(user.username, user.password, true, false);
             if (res.Succeeded)
             {
+                var userFromDb = await _userManager.FindByNameAsync(user.username);
+                var userId = userFromDb?.Id; // Get the UserId
                 //generate token
                 var tokenhandler = new JwtSecurityTokenHandler();
                 var tokenkey = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
@@ -45,7 +49,7 @@ namespace TaskManagementSystem.Controllers
                 };
                 var token = tokenhandler.CreateToken(tokendesc);
                 var finaltoken = tokenhandler.WriteToken(token);
-                return Ok(new TokenResponse() {code = "001",username = user.username, Token = finaltoken, RefreshToken = "" });
+                return Ok(new TokenResponse() {code = "001",username = user.username,userId= userId, Token = finaltoken, RefreshToken = "" });
 
             }
             else

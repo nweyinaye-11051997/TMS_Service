@@ -17,7 +17,10 @@ namespace TaskManagementSystem.ServiceImpl
         {
             return await _dao.GetAllAsync();
         }
-
+        public async Task<List<TaskEntity>> GetAllAssignTaskAsync()
+        {
+            return await _dao.GetAllAssignTaskAsync();
+        }
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _dao.GetByIdAsync(id);
@@ -33,7 +36,7 @@ namespace TaskManagementSystem.ServiceImpl
             await _dao.UpdateAsync(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
             await _dao.DeleteAsync(id);
         }

@@ -20,17 +20,36 @@ namespace TaskManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<TaskListResponse> GetAll()
+        [Route("GetAllTask")]
+        public async Task<ListResponse<TaskEntity>> GetAll()
         {
-            TaskEntity obj = new TaskEntity();
-            obj.Title = "To Deploy";
-            List<TaskEntity> taskList = new List<TaskEntity>();
-            taskList.Add(obj);
-            TaskListResponse res = new TaskListResponse();
+          
+            var list = await _taskService.GetAllAssignTaskAsync();
+            ListResponse<TaskEntity> res = new ListResponse<TaskEntity>();
             res.code = "001";
-            res.taskList = taskList;
+            res.ResponseList = list;
             return res;
         }
+        [HttpPost("deleteTask")]
+        public async Task<ResponseMessage> DeleteTask(TaskEntity taskentity)
+        {
+            await _taskService.DeleteAsync(taskentity.Id);
+            ResponseMessage res = new ResponseMessage();
+            res.code = "001";
+            res.description = "Task deleted successful!";
+            return res;
+        }
+        [HttpPost]
+        [Route("updateTask")]
+        public async Task<ResponseMessage> UpdateAsync(TaskEntity taskentity)
+        {
+            await _taskService.UpdateAsync(taskentity);
+            ResponseMessage res = new ResponseMessage();
+            res.code = "001";
+            res.description = "Task updated successful!";
+            return res;
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -49,6 +68,20 @@ namespace TaskManagementSystem.Controllers
             ResponseMessage res = new ResponseMessage();
             res.code = "001";
             res.description = "Task created successful!";
+            return res;
+
+        }
+
+
+
+        [HttpPost]
+        [Route("assignTask")]
+        public async Task<ResponseMessage> assignTask(AssignTaskEntity taskentity)
+        {
+            await _taskService.AssignTaskAsync(taskentity);
+            ResponseMessage res = new ResponseMessage();
+            res.code = "001";
+            res.description = "Assigned Task successful!";
             return res;
 
         }

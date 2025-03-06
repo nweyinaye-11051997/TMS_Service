@@ -6,8 +6,8 @@
         public string? description { get; set; }
     }
 
-   public class TaskListResponse : ResponseMessage
+   public class ListResponse<T> : ResponseMessage where T : class
     {
-        public List<TaskEntity> taskList { get; set; }
+        public IEnumerable<T> ResponseList { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TaskManagementSystem.IDao
+﻿using TaskManagementSystem.Models;
+
+namespace TaskManagementSystem.IDao
 {
     public interface IDao<T> where T : class
     {
@@ -6,6 +8,8 @@
         Task<T?> GetByIdAsync(int id);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(string id);
+        Task<List<TaskEntity>> GetAllAssignTaskAsync();
+        Task<List<TaskEntity>> SearchByField(string? TaskName, string? ProjectID, int? Priority, string? Status);
     }
 }
