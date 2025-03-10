@@ -12,7 +12,7 @@ namespace TaskManagementSystem.Models
 
         public int? Priority { get; set; }
 
-        public string? Status { get; set; }
+        public int? Status { get; set; }
 
         public int? Duration { get; set; }
 
