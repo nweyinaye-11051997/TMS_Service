@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.ServiceInterface;
 
@@ -24,19 +25,24 @@ namespace TaskManagementSystem.Controllers
         public async Task<ListResponse<TaskEntity>> GetAll()
         {
           
-            var list = await _taskService.GetAllAssignTaskAsync();
-            ListResponse<TaskEntity> res = new ListResponse<TaskEntity>();
-            res.code = "001";
-            res.ResponseList = list;
+            var list = await _taskService.GetAllAssignTaskAsync();          
+            var res = new ListResponse<TaskEntity>
+            {
+                code = "001",
+                description = "Task count  fetched successfully",
+                ResponseList = list
+            };
             return res;
         }
         [HttpPost("deleteTask")]
         public async Task<ResponseMessage> DeleteTask(TaskEntity taskentity)
         {
             await _taskService.DeleteAsync(taskentity.Id);
-            ResponseMessage res = new ResponseMessage();
-            res.code = "001";
-            res.description = "Task deleted successful!";
+            var res = new ResponseMessage
+            {
+                code = "001",
+                description = "Task deleted successful!",
+            };
             return res;
         }
         [HttpPost]
@@ -44,9 +50,11 @@ namespace TaskManagementSystem.Controllers
         public async Task<ResponseMessage> UpdateAsync(TaskEntity taskentity)
         {
             await _taskService.UpdateAsync(taskentity);
-            ResponseMessage res = new ResponseMessage();
-            res.code = "001";
-            res.description = "Task updated successful!";
+            var res = new ResponseMessage
+            {
+                code = "001",
+                description = "Task updated successful!",
+            };
             return res;
         }
 
@@ -65,23 +73,11 @@ namespace TaskManagementSystem.Controllers
         public async Task<ResponseMessage> createTask(TaskEntity taskentity)
         {
             await _taskService.AddAsync(taskentity);
-            ResponseMessage res = new ResponseMessage();
-            res.code = "001";
-            res.description = "Task created successful!";
-            return res;
-
-        }
-
-
-
-        [HttpPost]
-        [Route("assignTask")]
-        public async Task<ResponseMessage> assignTask(AssignTaskEntity taskentity)
-        {
-            await _taskService.AssignTaskAsync(taskentity);
-            ResponseMessage res = new ResponseMessage();
-            res.code = "001";
-            res.description = "Assigned Task successful!";
+            var res = new ResponseMessage
+            {
+                code = "001",
+                description = "Task created successful!",
+            };
             return res;
 
         }

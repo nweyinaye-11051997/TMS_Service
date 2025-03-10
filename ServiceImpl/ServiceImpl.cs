@@ -1,4 +1,5 @@
-﻿using TaskManagementSystem.IDao;
+﻿using TaskManagementSystem.Common;
+using TaskManagementSystem.IDao;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.ServiceInterface;
 
@@ -16,10 +17,6 @@ namespace TaskManagementSystem.ServiceImpl
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dao.GetAllAsync();
-        }
-        public async Task<List<TaskEntity>> GetAllAssignTaskAsync()
-        {
-            return await _dao.GetAllAssignTaskAsync();
         }
         public async Task<T?> GetByIdAsync(int id)
         {

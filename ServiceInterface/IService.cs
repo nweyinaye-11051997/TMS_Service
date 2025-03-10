@@ -10,6 +10,5 @@ namespace TaskManagementSystem.ServiceInterface
         Task UpdateAsync(T entity);
         Task DeleteAsync(string id);
 
-        Task<List<TaskEntity>> GetAllAssignTaskAsync();
     }
 }
