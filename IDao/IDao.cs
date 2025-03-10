@@ -11,5 +11,8 @@ namespace TaskManagementSystem.IDao
         Task DeleteAsync(string id);
         Task<List<TaskEntity>> GetAllAssignTaskAsync();
         Task<List<TaskEntity>> SearchByField(string? TaskName, string? ProjectID, int? Priority, string? Status);
+        Task UpdateAssignTaskAsync(AssignTaskEntity updatedEntity);
+
+        Task<CountModel> GetTotalCount();
     }
 }

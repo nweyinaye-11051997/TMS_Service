@@ -77,5 +77,62 @@ namespace TaskManagementSystem.DaoImpl
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task UpdateAssignTaskAsync(AssignTaskEntity updatedEntity)
+        {
+            try
+            {
+                var existingEntity = await _context.tblAssignTask.FindAsync(updatedEntity.Id);
+
+                if (existingEntity == null)
+                {
+                    throw new InvalidOperationException("The record has been deleted by another user.");
+                }
+
+                _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is AssignTaskEntity)
+                    {
+                        var databaseValues = await entry.GetDatabaseValuesAsync();
+                        if (databaseValues == null)
+                        {
+                            throw new InvalidOperationException("The record was deleted by another user.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The record has been modified by another user. Handle merge conflict.");
+                            entry.OriginalValues.SetValues(databaseValues); // Reset to DB values
+                            await _context.SaveChangesAsync();  // Save again after conflict resolution
+                        }
+                    }
+                }
+            }
+        }
+
+        public Task<CountModel> GetTotalCount()
+        {
+           
+                var taskCount = _context.tblTask.Count();
+                var progressCount = _context.tblTask.Count(t => t.Status == "Progress");
+                var completeCount = _context.tblTask.Count(t => t.Status == "Complete");
+                var notStartCount = _context.tblTask.Count(t => t.Status == "Not Start");
+                var projectCount = 3; // Static value
+
+                var countModel = new CountModel
+                {
+                    completeCount = completeCount,
+                    projectCount = projectCount,
+                    progressCount = progressCount,
+                    taskCount = taskCount,
+                    notstartCount = notStartCount
+                };
+
+                return Task.FromResult(countModel); // Fixes the async return issue
+            
+        }
     }
 }
