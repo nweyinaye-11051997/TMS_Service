@@ -96,6 +96,7 @@ builder.Services.AddScoped(typeof(IDao<>), typeof(DaoImpl<>));
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IAssignTaskService, AssignTaskService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
