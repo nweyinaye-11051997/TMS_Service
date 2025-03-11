@@ -14,6 +14,7 @@ namespace TaskManagementSystem.Models
 
         public DbSet<TaskEntity> tblTask { get; set; }
         public DbSet<AssignTaskEntity> tblAssignTask { get; set; }
+        public DbSet<ProjectEntity> tblProject { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
