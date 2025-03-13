@@ -6,15 +6,15 @@ namespace TaskManagementSystem.ServiceImpl
 {
     public class HomeService : ServiceImpl<CountModel>, IHomeService
     {
-        private readonly IDao<CountModel> _asigntaskDao;
-        public HomeService(IDao<CountModel> assigntaskdao) : base(assigntaskdao)
+        private readonly IDao<CountModel> _dao;
+        public HomeService(IDao<CountModel> dao) : base(dao)
         {
-            this._asigntaskDao = assigntaskdao;
+            this._dao = dao;
         }
 
         public Task<CountModel> GetTotalCount()
         {
-           return _asigntaskDao.GetTotalCount();
+           return _dao.GetTotalCount();
         }
 
         
