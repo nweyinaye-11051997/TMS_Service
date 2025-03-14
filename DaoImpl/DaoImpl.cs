@@ -122,7 +122,9 @@ namespace TaskManagementSystem.DaoImpl
                 var notStartCount = _context.tblTask.Count(t => t.Status == "Not Start");
                 var projectCount = _context.tblProject.Count(); // Static value
 
-                var countModel = new CountModel
+            
+            
+            var countModel = new CountModel
                 {
                     completeCount = completeCount,
                     projectCount = projectCount,
