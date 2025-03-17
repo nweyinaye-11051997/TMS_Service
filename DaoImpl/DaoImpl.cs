@@ -45,7 +45,7 @@ namespace TaskManagementSystem.DaoImpl
         {
 
             var res = await _context.tblTask
-                 .Include(t => t.AssignTasks)  // Ensures EF loads related AssignTasks
+                 .Include(t => t.AssignTasks) 
                  .ToListAsync();
 
             return res;
