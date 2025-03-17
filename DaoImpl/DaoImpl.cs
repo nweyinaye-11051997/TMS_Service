@@ -96,6 +96,7 @@ namespace TaskManagementSystem.DaoImpl
         }
         public async Task UpdateAssignTaskAsync(AssignTaskEntity updatedEntity)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var existingEntity = await _context.tblAssignTask.FindAsync(updatedEntity.Id);
@@ -113,7 +114,9 @@ namespace TaskManagementSystem.DaoImpl
                 }
 
                 _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-                await _context.SaveChangesAsync();
+                 await _context.SaveChangesAsync();
+                await _context.Database.ExecuteSqlRawAsync("EXEC dbo.sp_UpdateProjectStatus"); // Manually trigger updates
+                await transaction.CommitAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {

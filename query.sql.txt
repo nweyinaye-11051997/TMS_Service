@@ -1,0 +1,16 @@
+CREATE PROCEDURE sp_UpdateProjectStatus
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE p
+    SET p.Status = ROUND(ProjectProgress, 0)
+   
+    FROM tblProject p
+    JOIN (
+        SELECT t.ProjectID,  SUM(at.Progress) * 1.0 / COUNT(at.ID) AS ProjectProgress
+        FROM tblAssignTask at
+        JOIN tblTask t ON at.TaskID = t.ID
+        GROUP BY t.ProjectID
+    ) TaskProgress ON p.ID = TaskProgress.ProjectID;
+END;

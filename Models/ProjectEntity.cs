@@ -6,7 +6,7 @@
         public string ProjectName { get; set; }
         public string ProjectManager { get; set; }
         public string Category { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
         public string? Remark { get; set; }
         public string? StartDate { get; set; }
         public string? EndDate { get; set; }
