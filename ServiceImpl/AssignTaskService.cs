@@ -1,4 +1,5 @@
-﻿using TaskManagementSystem.Common;
+﻿using System.Threading.Tasks;
+using TaskManagementSystem.Common;
 using TaskManagementSystem.IDao;
 using TaskManagementSystem.Models;
 using TaskManagementSystem.ServiceInterface;
@@ -24,6 +25,14 @@ namespace TaskManagementSystem.ServiceImpl
             task.CreatedDate = DateTime.Now;
             task.UpdatedDate = DateTime.Now;
             await _asigntaskDao.AddAsync(task);
+        }
+
+        public async Task AddAssignTaskAsync(AssignTaskEntity entity, string taskID, string memberID)
+        {
+            entity.Id = GeneralUtil.GeneratedKey;
+            entity.CreatedDate = DateTime.Now;
+            entity.UpdatedDate = DateTime.Now;
+            await _asigntaskDao.AddAssignTaskAsync(entity, taskID,memberID);
         }
     }
 }

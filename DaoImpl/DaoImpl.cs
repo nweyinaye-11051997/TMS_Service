@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 using TaskManagementSystem.IDao;
 using TaskManagementSystem.Models;
 
@@ -61,6 +62,22 @@ namespace TaskManagementSystem.DaoImpl
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
+        public async Task AddAssignTaskAsync(T entity,string taskID,string memberID)
+        {
+        
+         
+            var userAlreadyAssigned = await _context.tblAssignTask
+       .AnyAsync(at => at.TaskID == taskID && at.MemberID == memberID);
+
+            if (userAlreadyAssigned)
+            {
+                throw new InvalidOperationException("Member is already assigned to this task.");
+            }
+
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+        }
 
         public async Task UpdateAsync(T entity)
         {
@@ -86,6 +103,13 @@ namespace TaskManagementSystem.DaoImpl
                 if (existingEntity == null)
                 {
                     throw new InvalidOperationException("The record has been deleted by another user.");
+                }
+                var userAlreadyAssigned = await _context.tblAssignTask
+                   .AnyAsync(at => at.TaskID == updatedEntity.TaskID && at.MemberID == updatedEntity.MemberID && at.Id != updatedEntity.Id);
+
+                if (userAlreadyAssigned)
+                {
+                    throw new InvalidOperationException("Member is already assigned to this task.");
                 }
 
                 _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);

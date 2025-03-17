@@ -6,5 +6,6 @@ namespace TaskManagementSystem.ServiceInterface
     {
         Task UpdateAssignTaskAsync(AssignTaskEntity updatedEntity);
         Task AssignTaskAsync(AssignTaskEntity task);
+        Task AddAssignTaskAsync(AssignTaskEntity entity, string taskID, string memberID);
     }
 }

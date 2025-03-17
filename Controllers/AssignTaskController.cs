@@ -23,27 +23,48 @@ namespace TaskManagementSystem.Controllers
         [Route("updateAssignTask")]
         public async Task<ResponseMessage> updateAssignTask(AssignTaskEntity taskentity)
         {
-
+            try { 
             await _taskService.UpdateAssignTaskAsync(taskentity);
             var res = new ResponseMessage
             {
                 code = "001",
-                description = "Task updated  successful!",
+                description = "Assigned Task updated  successful!",
             };
             return res;
-        }
+        }catch(Exception e)
+            {
+                var res = new ResponseMessage
+                {
+                    code = "005",
+                    description = e.Message,
+                };
+                return res;
+            }
+}
 
         [HttpPost]
         [Route("assignTask")]
         public async Task<ResponseMessage> assignTask(AssignTaskEntity taskentity)
         {
-            await _taskService.AssignTaskAsync(taskentity);
-            var res = new ResponseMessage
+            try
             {
-                code = "001",
-                description = "Assigned Task successful!",
-            };
-            return res;
+                await _taskService.AddAssignTaskAsync(taskentity, taskentity.TaskID, taskentity.MemberID);
+                var res = new ResponseMessage
+                {
+                    code = "001",
+                    description = "Assigned Task successful!",
+                };
+                return res;
+            }catch(Exception e)
+            {
+                var res = new ResponseMessage
+                {
+                    code = "005",
+                    description = e.Message,
+                };
+                return res;
+            }          
+           
 
         }
     }

@@ -7,6 +7,7 @@ namespace TaskManagementSystem.IDao
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);
         Task AddAsync(T entity);
+        Task AddAssignTaskAsync(T entity, string taskID, string memberID);
         Task UpdateAsync(T entity);
         Task DeleteAsync(string id);
         Task<List<TaskEntity>> GetAllAssignTaskAsync();
